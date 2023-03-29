@@ -89,6 +89,13 @@ for y in 0..image.height {
 }
 ```
 
+## Fitness function
+The fitness function is the accumulated error^2 per pixel, generated images compared to goal image. 
+
+Each error is the `abs(goal_pixel - generated_pixel)` so errors cannot compensate for errors elsewhere in the image.
+
+The less total error the closer the generated image is to the goal image.
+
 ## Operators / Instructions
 
 Sin(x) and cos(x) are evaluated as sin(2 \* pi \* x) and cos(2 \* pi \* x) so that x = -1.0 to 1.0 also gives a sin/cos output like that.
