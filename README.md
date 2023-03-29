@@ -11,6 +11,19 @@ A genetic programming experiment trying to approximate a picture with a function
 
 Written in Rust for fearless concurrency. 
 
+# Example output
+
+## Filled Circle
+
+Input: 
+![](/images/filled_circle.png)
+
+Progress: 
+
+https://github.com/tomhal/pixapprox/examples/filled_circle.mp4
+
+https://github.com/tomhal/pixapprox/blob/main/examples/filled_circle.mp4
+
 ## Pre-requisites
 
 ### Compiling and running
@@ -40,10 +53,10 @@ It is preferred to empty that folder before running the application.
 ## Generate video from output files
 Install ffmpeg and then run:
 ```bash
-> ffmpeg -i result/result_gen_%05d.png out.mp4
+> ffmpeg.exe -framerate 15 -i result/%05d.png -s:v 512x256 -c:v libx264 -profile:v high -crf 12 -pix_fmt yuv420p movie.mp4
 ```
 
-This currently does not always work. Investigating.
+[Explanation of the options](https://kb.tecplot.com/2019/02/27/use-ffmpeg-to-create-videos-from-pngs/)
 
 # Program internals
 ## Values for coordinates and color
