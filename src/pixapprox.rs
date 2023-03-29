@@ -21,7 +21,7 @@ const USE_ELITISM: usize = 0;
 const NUMBER_OF_MUTATIONS: usize = 1;
 
 /// The number of the best individuals the next generation will be based on
-const NBEST: usize = 5;
+const NBEST: usize = 10;
 
 /// The maxmimum number of generations before the program ends
 const NGENERATIONS: u32 = 15000;
