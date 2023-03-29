@@ -1,4 +1,3 @@
-// ffmpeg -i result/result_gen_%05d.png out.mp4
 use rand::{rngs::StdRng, SeedableRng};
 use rayon::prelude::*;
 use std::time::{Duration, Instant};
@@ -14,7 +13,7 @@ use crate::{
 
 const NGENERATIONS: u32 = 15000;
 const NVARS: usize = 2;
-const POPULATION_SIZE: usize = 70;
+const POPULATION_SIZE: usize = 40;
 
 pub fn approx_pic() {
     let mut rng = StdRng::from_rng(rand::thread_rng()).unwrap();
@@ -25,9 +24,9 @@ pub fn approx_pic() {
     //
 
     // These pictures converge pretty fast:
-    // let file_name = "images/filled_circle.png";
+    let file_name = "images/filled_circle.png";
     // let file_name = "images/mona_lisa.png";
-    let file_name = "images/mona_lisa_small.png";
+    // let file_name = "images/mona_lisa_small.png";
     // let file_name = "images/filled_thing.png";
     // let file_name = "images/heavy.png";
     // let file_name = "images/heavy_small.png";
@@ -35,6 +34,7 @@ pub fn approx_pic() {
     // let file_name = "images/cornell_small.png";
 
     // These converge slow, seems impossible to get good:
+    // Straight lines and squares are not easy to calculate
     // let file_name = "images/mondriaan.png";
     // let file_name = "images/mondriaan_small.png";
     // let file_name = "images/red_apple.png";
@@ -47,7 +47,7 @@ pub fn approx_pic() {
 
     let mut last_error: u64 = u64::MAX;
     let mut population = Population::random(&rng, POPULATION_SIZE);
-
+    let mut file_number = 0u64;
     for gen in 0..NGENERATIONS {
         let start_time = Instant::now();
 
@@ -57,7 +57,8 @@ pub fn approx_pic() {
 
         let best_ind_error = population.individuals[0].error.unwrap();
         if best_ind_error < last_error {
-            save_best(gen, &goal_image, &mut population);
+            file_number += 1;
+            save_best(&goal_image, &mut population, file_number);
             last_error = best_ind_error;
         }
         print_best_info(&population, gen, npixels, simulate_time);
@@ -74,7 +75,7 @@ fn print_best_info(population: &Population, gen: u32, npixels: u64, duration: Du
     let error_per_pixel = best_ind_error / (npixels as f32);
     let time = duration.as_millis();
 
-    println!("Gen: {gen}, Population: {POPULATION_SIZE}, Code: {code_size}, Error: {error_per_pixel},\tTime: {time} ms");
+    println!("Gen: {gen}, Code: {code_size}, Error: {error_per_pixel},\tTime: {time} ms");
 }
 
 fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> Population {
@@ -89,15 +90,14 @@ fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> P
 
         // Mutate
         mutate(rng, &mut individual.prg, nvars);
-        mutate(rng, &mut individual.prg, nvars);
 
         new_population.individuals.push(individual);
     }
 
     // Elitism - remember the 2 best individuals from the previous generation
-    for i in 0..2 {
-        new_population.individuals[i] = population.individuals[i].clone();
-    }
+    // for i in 0..2 {
+    //     new_population.individuals[i] = population.individuals[i].clone();
+    // }
 
     new_population
 }
@@ -115,19 +115,19 @@ fn simulate(goal_image: &GrayScaleImage, population: &mut Population) {
         .sort_by(|a, b| a.error.unwrap().cmp(&b.error.unwrap()));
 }
 
-fn save_best(gen: u32, goal_image: &GrayScaleImage, population: &mut Population) {
+fn save_best(goal_image: &GrayScaleImage, population: &mut Population, file_number: u64) {
     let best_ind = &population.individuals[0];
 
     // Save image result
-    let filename = format!("result/result_gen_{:05}.png", gen);
+    let filename = format!("result/{:05}.png", file_number);
     let generated_image = eval_into_image(goal_image, &best_ind.prg);
     save_comparison_image(goal_image, &generated_image, filename.as_str());
 
     // Save code result
-    let filename = format!("result/result_gen_{:05}.txt", gen);
-    let mut output = File::create(filename).unwrap();
-    let line = format!("{}", best_ind.prg);
-    output.write_all(line.as_bytes()).unwrap();
+    // let filename = format!("result/{:05}.txt", file_number);
+    // let mut output = File::create(filename).unwrap();
+    // let line = format!("{}", best_ind.prg);
+    // output.write_all(line.as_bytes()).unwrap();
 }
 
 fn eval_individual(goal_image: &GrayScaleImage, individual: &mut Individual) {
@@ -178,10 +178,12 @@ pub fn save_comparison_image(goal: &GrayScaleImage, generated: &GrayScaleImage, 
     let mut goal_bytes = goal.data.iter();
     for y in 0..goal.height {
         for x in 0..goal.width {
-            image.data.push(*goal_bytes.next().unwrap());
+            let b = *goal_bytes.next().unwrap();
+            image.data.push(b);
         }
         for x in 0..goal.width {
-            image.data.push(*gen_bytes.next().unwrap());
+            let b = *gen_bytes.next().unwrap();
+            image.data.push(b);
         }
     }
 
