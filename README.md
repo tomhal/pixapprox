@@ -60,6 +60,8 @@ Install ffmpeg and then run:
 ## Values for coordinates and color
 The values for x and y will go from -1.0 to 1.0 no matter what dimension of the picture.
 
+The function output is limited to be within -1.0 and 1.0 and is then converted to a number between 0(black) and 255(white).
+
 ```rust
 // State is where x and y are stored
 let mut state = State::new(NVARS);
