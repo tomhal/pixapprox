@@ -6,6 +6,9 @@ A [genetic programming](https://en.wikipedia.org/wiki/Genetic_programming) exper
 pixel = f(x, y)
 ```
 
+
+A genetic programming experiment trying to approximate a picture with a function pixel = f(x, y)
+
 Written in Rust for fearless concurrency. 
 
 ## Pre-requisites
@@ -76,7 +79,7 @@ for y in 0..image.height {
 
 ## Operators / Instructions
 
-Sin(x) and Cos(x) are evaluated as sin(2*pi*x) and cos(2*pi*x) so that x = -1.0 to 1.0 also gives a sin/cos output like that.
+Sin(x) and Cos(x) are evaluated as sin(2 * pi * x) and cos(2 * pi * x) so that x = -1.0 to 1.0 also gives a sin/cos output like that.
 
 ## Performance considerations
 No profiling has been done yet.
