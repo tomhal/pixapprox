@@ -2,7 +2,7 @@ use core::panic;
 use std::f32::consts::TAU;
 use std::fmt::Display;
 
-use crate::stack::{Stack, Stack2};
+use crate::stack::Stack2;
 use crate::state::State;
 
 #[derive(Debug, Clone)]
