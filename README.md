@@ -18,9 +18,9 @@ Goal is to produce this image:
 
 ![](/images/filled_circle.png)
 
-Video of progress: 
+Video of progress:
 
-https://github.com/tomhal/pixapprox/blob/main/examples/filled_circle.mp4
+https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/filled_circle.mp4
 
 ## Pre-requisites
 
