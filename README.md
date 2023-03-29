@@ -79,7 +79,7 @@ for y in 0..image.height {
 
 ## Operators / Instructions
 
-Sin(x) and Cos(x) are evaluated as sin(2 * pi * x) and cos(2 * pi * x) so that x = -1.0 to 1.0 also gives a sin/cos output like that.
+Sin(x) and cos(x) are evaluated as sin(2 \* pi \* x) and cos(2 \* pi \* x) so that x = -1.0 to 1.0 also gives a sin/cos output like that.
 
 ## Performance considerations
 No profiling has been done yet.
