@@ -11,9 +11,26 @@ use crate::{
     state::State,
 };
 
+/// Set to true if you want a <number>.txt written containing the code for the image
+const OUTPUT_CODE: bool = false;
+
+/// Set to a number n to keep the previous generations n best individuals
+const USE_ELITISM: usize = 1;
+
+/// The number of the best individuals the next generation will be based on
+const NBEST: usize = 5;
+
+/// The maxmimum number of generations before the program ends
 const NGENERATIONS: u32 = 15000;
+
+/// The number of individuals in each generation.
+/// Higher number is slower but not always better.
+/// 20-1000 seems like good values depending on the image.
+/// Lower value means the code size will increase at a faster rate.
+const POPULATION_SIZE: usize = 50;
+
+/// Number of variables, 2 means x and y
 const NVARS: usize = 2;
-const POPULATION_SIZE: usize = 40;
 
 pub fn approx_pic() {
     let mut rng = StdRng::from_rng(rand::thread_rng()).unwrap();
@@ -83,10 +100,9 @@ fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> P
         individuals: Vec::with_capacity(POPULATION_SIZE),
     };
 
-    // New population is a mutated version of the nbest versions from previous generation
-    let nbest = 10;
+    // New population is a mutated version of the NBEST individuals from previous generation
     for i in 0..POPULATION_SIZE {
-        let mut individual = population.individuals[i % nbest].clone();
+        let mut individual = population.individuals[i % NBEST].clone();
 
         // Mutate
         mutate(rng, &mut individual.prg, nvars);
@@ -94,10 +110,10 @@ fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> P
         new_population.individuals.push(individual);
     }
 
-    // Elitism - remember the 2 best individuals from the previous generation
-    // for i in 0..2 {
-    //     new_population.individuals[i] = population.individuals[i].clone();
-    // }
+    // Elitism - remember the best individuals from the previous generation
+    for i in 0..USE_ELITISM {
+        new_population.individuals[i] = population.individuals[i].clone();
+    }
 
     new_population
 }
@@ -123,11 +139,13 @@ fn save_best(goal_image: &GrayScaleImage, population: &mut Population, file_numb
     let generated_image = eval_into_image(goal_image, &best_ind.prg);
     save_comparison_image(goal_image, &generated_image, filename.as_str());
 
-    // Save code result
-    // let filename = format!("result/{:05}.txt", file_number);
-    // let mut output = File::create(filename).unwrap();
-    // let line = format!("{}", best_ind.prg);
-    // output.write_all(line.as_bytes()).unwrap();
+    if OUTPUT_CODE {
+        // Save code result
+        let filename = format!("result/{:05}.txt", file_number);
+        let mut output = File::create(filename).unwrap();
+        let line = format!("{}", best_ind.prg);
+        output.write_all(line.as_bytes()).unwrap();
+    }
 }
 
 fn eval_individual(goal_image: &GrayScaleImage, individual: &mut Individual) {
