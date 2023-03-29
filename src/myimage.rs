@@ -1,23 +1,21 @@
 use image::Rgb;
 use image::RgbImage;
-use smallvec::SmallVec;
 use std::{fs::File, io};
 
-const MAX_SIZE: usize = 256 * 256;
-
-/// Gray-scale (u8) image, image is stack allocated
+/// Gray-scale (u8) image
 pub struct GrayScaleImage {
-    pub data: SmallVec<[u8; MAX_SIZE]>,
+    // pub data: SmallVec<[u8; MAX_SIZE]>,
+    pub data: Vec<u8>,
     pub width: u32,
     pub height: u32,
 }
 
 impl GrayScaleImage {
     pub fn with_dimensions(width: u32, height: u32) -> Self {
-        assert!(((width * height) as usize) < MAX_SIZE);
+        let pixels = (width * height) as usize;
 
         Self {
-            data: smallvec![],
+            data: Vec::with_capacity(pixels),
             width,
             height,
         }
