@@ -14,13 +14,18 @@ Written in Rust for fearless concurrency.
 # Example output
 
 ## Filled Circle
-Goal is to produce this image:
-
 ![](/images/filled_circle.png)
 
 Video of progress:
 
 https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/filled_circle.mp4
+
+## Zebra skin
+![](/images/zebra_skin_by_photolight.png)
+
+Video of progress:
+
+https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/zebra1.mp4
 
 ## Pre-requisites
 
