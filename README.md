@@ -59,7 +59,6 @@ Install ffmpeg and then run:
 # Program internals
 ## Values for coordinates and color
 The values for x and y will go from -1.0 to 1.0 no matter what dimension of the picture.
-In the code there is a for y-loop going from 0 to height, and for x-loop going from 0 
 
 ```rust
 // State is where x and y are stored
