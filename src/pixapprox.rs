@@ -15,7 +15,10 @@ use crate::{
 const OUTPUT_CODE: bool = false;
 
 /// Set to a number n to keep the previous generations n best individuals
-const USE_ELITISM: usize = 1;
+const USE_ELITISM: usize = 0;
+
+/// The number of mutations done on each individual
+const NUMBER_OF_MUTATIONS: usize = 1;
 
 /// The number of the best individuals the next generation will be based on
 const NBEST: usize = 5;
@@ -49,6 +52,7 @@ pub fn approx_pic() {
     // let file_name = "images/heavy_small.png";
     // let file_name = "images/cornell.png";
     // let file_name = "images/cornell_small.png";
+    let file_name = "images/zebra_skin_by_photolight.png";
 
     // These converge slow, seems impossible to get good:
     // Straight lines and squares are not easy to calculate
@@ -104,8 +108,10 @@ fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> P
     for i in 0..POPULATION_SIZE {
         let mut individual = population.individuals[i % NBEST].clone();
 
-        // Mutate
-        mutate(rng, &mut individual.prg, nvars);
+        for _ in 0..NUMBER_OF_MUTATIONS {
+            // Mutate
+            mutate(rng, &mut individual.prg, nvars);
+        }
 
         new_population.individuals.push(individual);
     }
