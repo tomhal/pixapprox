@@ -5,6 +5,7 @@ use std::{error::Error, thread};
 #[macro_use]
 extern crate smallvec;
 
+mod eval;
 mod expr;
 mod mutate;
 mod myimage;

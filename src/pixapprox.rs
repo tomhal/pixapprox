@@ -3,8 +3,9 @@ use rayon::prelude::*;
 use std::time::{Duration, Instant};
 use std::{fs::File, io::Write, iter::zip};
 
+use crate::eval::eval;
 use crate::{
-    expr::{eval, Program},
+    expr::Program,
     mutate::mutate,
     myimage::{GrayScaleImage, MyRgbImage},
     population::{Individual, Population},
