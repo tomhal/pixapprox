@@ -42,7 +42,7 @@ When you open a `.rs` file, Visual Studio Code will suggest you install the `rus
 Since the program is computationally expensive, usually it is run with
 
 ```bash
-> cargo run --release
+cargo run --release
 ```
 
 Remove `--release` to get a debug build with more safety checks enabled.
@@ -56,7 +56,7 @@ It is preferred to empty that folder before running the application.
 ## Generate video from output files
 Install ffmpeg and then run:
 ```bash
-> ffmpeg.exe -framerate 15 -i result/%05d.png -s:v 512x256 -c:v libx264 -profile:v high -crf 12 -pix_fmt yuv420p movie.mp4
+ffmpeg.exe -framerate 15 -i result/%05d.png -s:v 512x256 -c:v libx264 -profile:v high -crf 12 -pix_fmt yuv420p movie.mp4
 ```
 
 [Explanation of the options](https://kb.tecplot.com/2019/02/27/use-ffmpeg-to-create-videos-from-pngs/)
