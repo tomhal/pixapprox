@@ -59,6 +59,8 @@ pub fn gen_var_str(n: usize) -> &'static str {
 
 #[cfg(test)]
 mod tests {
+    use crate::state::State;
+
     use super::*;
 
     #[test]
