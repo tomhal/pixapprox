@@ -97,7 +97,7 @@ fn print_best_info(population: &Population, gen: u32, npixels: u64, duration: Du
     let error_per_pixel = best_ind_error / (npixels as f32);
     let time = duration.as_millis();
 
-    println!("Gen: {gen}, Code: {code_size}, Error: {error_per_pixel},\tTime: {time} ms");
+    println!("Gen: {gen}, Code: {code_size}, Error: {error_per_pixel:.4}, Time: {time} ms");
 }
 
 fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> Population {
@@ -118,6 +118,7 @@ fn evolve(gen: u32, population: Population, rng: &mut StdRng, nvars: usize) -> P
     }
 
     // Elitism - remember the best individuals from the previous generation
+    #[allow(clippy::reversed_empty_ranges)]
     for i in 0..USE_ELITISM {
         new_population.individuals[i] = population.individuals[i].clone();
     }
