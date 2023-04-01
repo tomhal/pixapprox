@@ -12,7 +12,7 @@ pixel = f(x, y)
 
 ![](/examples/mona_lisa1.png)
 
-And another run, that annoying 'Snake' Plissken artifact will probably not disappear in a long time:
+And another run, that annoying 'Snake' Plissken artifact will probably not disappear in many more generations:
 
 ![](/examples/mona_lisa2.png)
 
