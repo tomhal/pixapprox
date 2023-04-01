@@ -16,10 +16,6 @@ And another run, that annoying 'Snake' Plissken artifact will probably not disap
 
 ![](/examples/mona_lisa2.png)
 
-Video of progress:
-
-https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/mona_lisa2.mp4
-
 ## Filled Circle
 
 ![](/images/filled_circle.png)
