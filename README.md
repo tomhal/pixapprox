@@ -1,12 +1,10 @@
 # PixApprox
 
-A [genetic programming](https://en.wikipedia.org/wiki/Genetic_programming) experiment trying to approximate a picture with a function
+A [genetic programming](https://en.wikipedia.org/wiki/Genetic_programming) experiment trying to approximate a picture with a function:
 
 ```
 pixel = f(x, y)
 ```
-
-A genetic programming experiment trying to approximate a picture with a function pixel = f(x, y)
 
 # Example output
 
