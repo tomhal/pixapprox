@@ -22,7 +22,7 @@ And another run, that annoying 'Snake' Plissken artifact will probably not disap
 
 Video of progress:
 
-https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/filled_circle.mp4
+https://www.youtube.com/watch?v=WKqS4dzS6hA
 
 ## Zebra skin
 
@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/filled_circle.m
 
 Video of progress:
 
-https://raw.githubusercontent.com/tomhal/pixapprox/main/examples/zebra1.mp4
+https://www.youtube.com/watch?v=Sr1BGVxKRTI
 
 ## Pre-requisites
 
@@ -67,6 +67,8 @@ Install ffmpeg and then run:
 ```bash
 ffmpeg.exe -framerate 15 -i result/%05d.png -s:v 512x256 -c:v libx264 -profile:v high -crf 12 -pix_fmt yuv420p movie.mp4
 ```
+
+or the provided `make_video.bat`.
 
 [Explanation of the options](https://kb.tecplot.com/2019/02/27/use-ffmpeg-to-create-videos-from-pngs/)
 
