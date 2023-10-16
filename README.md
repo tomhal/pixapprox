@@ -16,6 +16,16 @@ And another run, that annoying 'Snake' Plissken artifact will probably not disap
 
 ![](/examples/mona_lisa2.png)
 
+A video of a a partial run, I stopped since it was obvious it wouldn't evolve into something much better.
+
+https://www.youtube.com/watch?v=71ZKELOgaSU
+
+## Cornell Box
+
+Cubes and straight lines are a bad fit for mostly nested sin() and cos(), but here is the result after running over night on my 12C AMD CPU. Looks like a scene from a horror movie.
+
+https://www.youtube.com/watch?v=_GC0JrWxEcQ
+
 ## Filled Circle
 
 ![](/images/filled_circle.png)
@@ -62,15 +72,9 @@ It is preferred to empty that folder before running the application.
 
 ## Generate video from output files
 
-Install ffmpeg and then run:
+Install mplayer and read make_video.bat. Often you could just typ make_video.bat and get output.avi.
 
-```bash
-ffmpeg.exe -framerate 15 -i result/%05d.png -s:v 512x256 -c:v libx264 -profile:v high -crf 12 -pix_fmt yuv420p movie.mp4
-```
-
-or the provided `make_video.bat`.
-
-[Explanation of the options](https://kb.tecplot.com/2019/02/27/use-ffmpeg-to-create-videos-from-pngs/)
+Here are some explanations for the options. http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-enc-images.html
 
 # Program internals
 
