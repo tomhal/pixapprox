@@ -3,15 +3,24 @@ use image::RgbImage;
 use std::{fs::File, io};
 
 /// Gray-scale (u8) image
+#[derive(Debug, Clone)]
 pub struct GrayScaleImage {
-    // pub data: SmallVec<[u8; MAX_SIZE]>,
     pub data: Vec<u8>,
-    pub width: u32,
-    pub height: u32,
+    pub width: i32,
+    pub height: i32,
 }
 
 impl GrayScaleImage {
-    pub fn with_dimensions(width: u32, height: u32) -> Self {
+    pub fn new(width: i32, height: i32) -> Self {
+        let mut image = Self::with_dimensions(width, height);
+
+        // Fill it with black
+        image.data.resize(image.data.capacity(), 0);
+
+        image
+    }
+
+    pub fn with_dimensions(width: i32, height: i32) -> Self {
         let pixels = (width * height) as usize;
 
         Self {
@@ -21,18 +30,33 @@ impl GrayScaleImage {
         }
     }
 
-    fn read_pixel(&self, x: u32, y: u32) -> u8 {
+    pub fn write_pixel(&mut self, x: i32, y: i32, color: u8) {
+        let index = x + y * self.width;
+        self.data[index as usize] = color;
+    }
+
+    fn read_pixel(&self, x: i32, y: i32) -> u8 {
         let index = x + y * self.width;
         self.data[index as usize]
     }
 
+    /// Returns the pixel value 0-255u8 at (x,y) or None
+    pub fn read_pixel2(&self, x: i32, y: i32) -> Option<u8> {
+        if x < 0 || y < 0 || x >= self.width as i32 || y >= self.height as i32 {
+            return None;
+        }
+
+        let index = x + y * self.width as i32;
+        Some(self.data[index as usize])
+    }
+
     pub fn save_file(&self, filename: &str) -> Result<(), image::ImageError> {
-        let mut img = RgbImage::new(self.width, self.height);
+        let mut img = RgbImage::new(self.width as u32, self.height as u32);
 
         for x in 0..self.width {
             for y in 0..self.height {
                 let c = self.read_pixel(x, y);
-                img.put_pixel(x, y, Rgb([c, c, c]));
+                img.put_pixel(x as u32, y as u32, Rgb([c, c, c]));
             }
         }
 
@@ -43,8 +67,8 @@ impl GrayScaleImage {
 /// RGB (u8,u8,u8) image
 pub struct MyRgbImage {
     pub data: Vec<u8>,
-    pub width: u32,
-    pub height: u32,
+    pub width: i32,
+    pub height: i32,
 }
 
 impl MyRgbImage {
@@ -64,8 +88,8 @@ impl MyRgbImage {
 
         Ok(MyRgbImage {
             data,
-            width: info.width,
-            height: info.height,
+            width: info.width as i32,
+            height: info.height as i32,
         })
     }
 

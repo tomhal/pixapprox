@@ -34,7 +34,7 @@ impl Population {
 #[derive(Debug, Clone)]
 pub struct Individual {
     pub prg: Program,
-    pub error: Option<u64>,
+    pub error: Option<f32>,
 }
 
 impl Individual {

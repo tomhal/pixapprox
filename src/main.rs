@@ -9,6 +9,7 @@ mod eval;
 mod expr;
 mod mutate;
 mod myimage;
+mod optimize;
 mod pixapprox;
 mod population;
 mod stack;

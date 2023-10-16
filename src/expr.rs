@@ -21,16 +21,29 @@ impl Display for Program {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Expr {
+    // Values
     Const(f32),
     Var(usize),
+
+    // Binary operators
     Add,
     Sub,
     Mul,
+    Max,
+    Min,
+
+    // Unary operators
     Cos,
     Sin,
     Atan,
+
+    // Special operators
+    /// Drop converts a binary operator into an unary one by dropping the top value
+    Drop,
+    /// Dup converts a unary operator into a binary one by duplicating the top value
+    Dup,
 }
 
 impl Display for Expr {
@@ -41,9 +54,13 @@ impl Display for Expr {
             Expr::Add => write!(f, "+"),
             Expr::Sub => write!(f, "-"),
             Expr::Mul => write!(f, "*"),
+            Expr::Max => write!(f, "max"),
+            Expr::Min => write!(f, "min"),
             Expr::Cos => write!(f, "cos"),
             Expr::Sin => write!(f, "sin"),
             Expr::Atan => write!(f, "atan"),
+            Expr::Drop => write!(f, "drop"),
+            Expr::Dup => write!(f, "dup"),
         }
     }
 }

@@ -16,8 +16,12 @@ pub fn mutate(rng: &mut StdRng, prg: &mut Program, nvars: usize) {
     let new_code: SmallVec<[_; MAX_MUTATION_SIZE]> = match expr {
         Expr::Const(x) => mutated_constant(rng, x, nvars),
         Expr::Var(i) => mutated_var(rng, i, nvars),
-        Expr::Add | Expr::Sub | Expr::Mul => mutated_binary_op(rng, nvars),
+        Expr::Add | Expr::Sub | Expr::Mul | Expr::Max | Expr::Min | Expr::Drop => {
+            mutated_binary_op(rng, nvars)
+        }
         Expr::Cos | Expr::Sin | Expr::Atan => mutated_unary_op(rng, nvars),
+
+        Expr::Dup => mutated_dup(rng, nvars),
     };
 
     if !new_code.is_empty() {
@@ -33,7 +37,7 @@ pub fn mutated_constant(
     x: f32,
     nvars: usize,
 ) -> SmallVec<[Expr; MAX_MUTATION_SIZE]> {
-    let choice = rng.gen_range(0..11);
+    let choice = rng.gen_range(0..=9);
     match choice {
         0 => smallvec![make_const(rng)],
 
@@ -50,7 +54,7 @@ pub fn mutated_constant(
 
         8 => smallvec![Expr::Const(x), Expr::Cos],
         9 => smallvec![Expr::Const(x), Expr::Sin],
-        10 => smallvec![Expr::Const(x), Expr::Atan],
+        // 10 => smallvec![Expr::Const(x), Expr::Atan],
         _ => panic!("mutated_constant: choice {} not in match", choice),
     }
 }
@@ -60,7 +64,7 @@ pub fn mutated_var(
     i: usize,
     nvars: usize,
 ) -> SmallVec<[Expr; MAX_MUTATION_SIZE]> {
-    let choice = rng.gen_range(0..11);
+    let choice = rng.gen_range(0..=9);
     match choice {
         0 => smallvec![make_const(rng)],
 
@@ -77,38 +81,56 @@ pub fn mutated_var(
 
         8 => smallvec![Expr::Var(i), Expr::Cos],
         9 => smallvec![Expr::Var(i), Expr::Sin],
-        10 => smallvec![Expr::Var(i), Expr::Atan],
+        // 10 => smallvec![Expr::Var(i), Expr::Atan],
         _ => panic!("mutated_var: choice {} not in match", choice),
     }
 }
 
 pub fn mutated_binary_op(rng: &mut StdRng, nvars: usize) -> SmallVec<[Expr; MAX_MUTATION_SIZE]> {
-    let choice = rng.gen_range(0..3);
+    let choice = rng.gen_range(0..=2);
     match choice {
         0 => smallvec![Expr::Add],
         1 => smallvec![Expr::Sub],
         2 => smallvec![Expr::Mul],
+        3 => smallvec![Expr::Max],
+        4 => smallvec![Expr::Min],
+        // 3 => smallvec![Expr::Drop],
         _ => panic!("mutated_binary_op: choice {} not in match", choice),
     }
 }
 
 pub fn mutated_unary_op(rng: &mut StdRng, nvars: usize) -> SmallVec<[Expr; MAX_MUTATION_SIZE]> {
-    let choice = rng.gen_range(0..6);
+    let choice = rng.gen_range(0..=3);
     match choice {
         0 => smallvec![Expr::Cos],
         1 => smallvec![Expr::Sin],
         2 => smallvec![make_const(rng), Expr::Add],
         3 => smallvec![make_const(rng), Expr::Mul],
-        4 => smallvec![Expr::Atan],
+        // 4 => smallvec![Expr::Atan],
+        // 5 => {
+        //     // a -> a a -> binop -> b
+        //     let binop = mutated_binary_op(rng, nvars);
+        //     smallvec![Expr::Dup, binop[0]]
+        // }
 
         // Removes the unary operator instead of replacing it
-        5 => smallvec![],
+        4 => smallvec![],
         _ => panic!("mutated_unary_op: choice {} not in match", choice),
     }
 }
 
+pub fn mutated_dup(rng: &mut StdRng, nvars: usize) -> SmallVec<[Expr; MAX_MUTATION_SIZE]> {
+    let choice = rng.gen_range(0..=1);
+    match choice {
+        0 => smallvec![Expr::Dup],
+        1 => smallvec![make_const(rng)],
+
+        _ => panic!("mutated_dup: choice {} not in match", choice),
+    }
+}
+
 pub fn make_const(rng: &mut StdRng) -> Expr {
-    Expr::Const(rng.gen::<f32>() * 2.0 - 1.0)
+    Expr::Const(rng.gen::<f32>() * 32.0 - 16.0)
 }
 
 // #[cfg(test)]

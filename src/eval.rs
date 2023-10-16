@@ -28,6 +28,16 @@ pub fn eval(prg: &Program, state: &State) -> f32 {
                 let b = stack.pop();
                 stack.push(a * b)
             }
+            Expr::Max => {
+                let a = stack.pop();
+                let b = stack.pop();
+                stack.push(a.max(b))
+            }
+            Expr::Min => {
+                let a = stack.pop();
+                let b = stack.pop();
+                stack.push(a.min(b))
+            }
             Expr::Cos => {
                 let a = stack.pop() * TAU;
                 stack.push(a.cos())
@@ -39,6 +49,15 @@ pub fn eval(prg: &Program, state: &State) -> f32 {
             Expr::Atan => {
                 let a = stack.pop();
                 stack.push(a.atan())
+            }
+            Expr::Drop => {
+                panic!("Drop not done");
+                stack.pop();
+            }
+            Expr::Dup => {
+                let a = stack.pop();
+                stack.push(a);
+                stack.push(a);
             }
         }
     }
